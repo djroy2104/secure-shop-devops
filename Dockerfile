@@ -1,18 +1,19 @@
-# Use a lightweight base image with OpenJDK 8
 FROM openjdk:8u151-jdk-alpine3.7
 
-# Set a non-root user for running the application
+# Create non-root user
 RUN adduser -D imagebuilder
+
+# Switch to non-root user
 USER imagebuilder
 
-# Expose the port on which the application will run
+# Expose application port
 EXPOSE 8070
 
-# Copy the JAR file to the /usr/app directory
-COPY target/shopping-cart*.jar /usr/app/
-
-# Set the working directory to /usr/app
+# Set working directory
 WORKDIR /usr/app
 
-# Run the application using a non-root user
-CMD ["java", "-jar", "shopping-cart*.jar"]
+# Copy JAR file
+COPY target/shopping-cart*.jar app.jar
+
+# Run application
+CMD ["java", "-jar", "app.jar"]
